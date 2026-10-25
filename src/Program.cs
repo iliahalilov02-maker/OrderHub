@@ -30,5 +30,17 @@ class Program
                 service.CreateOrder("Иванов", "Клавиатура", 5490m),
                 service.CreateOrder("Петрова", "Монитор", 18990m)
             );
+        using OrderHub.Services;
+
+        var catalog = new CatalogService();
+        catalog.AddProduct("Клавиатура", 2500m, "Периферия");
+        catalog.AddProduct("Мышь", 1200m, "Периферия");
+        catalog.AddProduct("Монитор", 18000m, "Дисплеи");
+        catalog.AddProduct("Наушники", 4500m, "Аудио");
+
+        catalog.PrintAll();
+        catalog.PrintSortedByNaturalOrder();
+        catalog.PrintSortedByName();
+        catalog.PrintSortedByNameLength();
     }
 }
