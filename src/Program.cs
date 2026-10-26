@@ -42,5 +42,16 @@ class Program
         catalog.PrintSortedByNaturalOrder();
         catalog.PrintSortedByName();
         catalog.PrintSortedByNameLength();
+
+        var reports = new ReportService();
+        const decimal threshold = 5000m;
+        var list = reports.ExpensiveProducts(products, threshold);
+        foreach (string line in list)
+            Console.WriteLine(line);
+        Console.WriteLine(reports.CountExpensive(products, threshold));
+        Console.WriteLine(reports.HasVeryExpensive(products, 50000m));
+        Console.WriteLine(reports.AllInStock(products));
+        Console.WriteLine(reports.Cheapest(products));
+
     }
 }

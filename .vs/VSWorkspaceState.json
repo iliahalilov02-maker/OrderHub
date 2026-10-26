@@ -9,6 +9,6 @@
     "\\src\\Services",
     "\\tests"
   ],
-  "SelectedNode": "\\src\\Domain\\Product.cs",
+  "SelectedNode": "\\src\\Services\\ReportService.cs",
   "PreviewInSolutionExplorer": false
 }
