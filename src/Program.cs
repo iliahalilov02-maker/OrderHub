@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 
 class Program
 {
@@ -6,20 +6,20 @@ class Program
     {
         var warehouse = new WarehouseService();
 
-        warehouse.Receive("Клавиатура", 10);
-        warehouse.Receive("Клавиатура", 5); // количество должно увеличиться, а не завести вторую запись
-        warehouse.Receive("Монитор", 3);
+        warehouse.Receive("РљР»Р°РІРёР°С‚СѓСЂР°", 10);
+        warehouse.Receive("РљР»Р°РІРёР°С‚СѓСЂР°", 5); // РєРѕР»РёС‡РµСЃС‚РІРѕ РґРѕР»Р¶РЅРѕ СѓРІРµР»РёС‡РёС‚СЊСЃСЏ, Р° РЅРµ Р·Р°РІРµСЃС‚Рё РІС‚РѕСЂСѓСЋ Р·Р°РїРёСЃСЊ
+        warehouse.Receive("РњРѕРЅРёС‚РѕСЂ", 3);
 
-        warehouse.Sell("Монитор", 1);
-        warehouse.Sell("Монитор", 99);  // предупреждение: товара
-        warehouse.Sell("Проектор", 1);  // сообщение: товара нет на складе
+        warehouse.Sell("РњРѕРЅРёС‚РѕСЂ", 1);
+        warehouse.Sell("РњРѕРЅРёС‚РѕСЂ", 99);  // РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёРµ: С‚РѕРІР°СЂР°
+        warehouse.Sell("РџСЂРѕРµРєС‚РѕСЂ", 1);  // СЃРѕРѕР±С‰РµРЅРёРµ: С‚РѕРІР°СЂР° РЅРµС‚ РЅР° СЃРєР»Р°РґРµ
 
         warehouse.PrintStock();
 
         var service = new OrderService();
-        service.CreateOrder("Иванов", "Клавиатура", 5490m);
-        service.CreateOrder("Петрова", "Монитор", 18990m);
-        service.CreateOrder("Сидоров", "Мышь", 1290m);
+        service.CreateOrder("РРІР°РЅРѕРІ", "РљР»Р°РІРёР°С‚СѓСЂР°", 5490m);
+        service.CreateOrder("РџРµС‚СЂРѕРІР°", "РњРѕРЅРёС‚РѕСЂ", 18990m);
+        service.CreateOrder("РЎРёРґРѕСЂРѕРІ", "РњС‹С€СЊ", 1290m);
         service.ProcessNext();
         service.ProcessNext();
         service.PrintAllOrders();
@@ -27,16 +27,16 @@ class Program
         service.PrintRecentActions();
         service.InitHistory
             (
-                service.CreateOrder("Иванов", "Клавиатура", 5490m),
-                service.CreateOrder("Петрова", "Монитор", 18990m)
+                service.CreateOrder("РРІР°РЅРѕРІ", "РљР»Р°РІРёР°С‚СѓСЂР°", 5490m),
+                service.CreateOrder("РџРµС‚СЂРѕРІР°", "РњРѕРЅРёС‚РѕСЂ", 18990m)
             );
         using OrderHub.Services;
 
         var catalog = new CatalogService();
-        catalog.AddProduct("Клавиатура", 2500m, "Периферия");
-        catalog.AddProduct("Мышь", 1200m, "Периферия");
-        catalog.AddProduct("Монитор", 18000m, "Дисплеи");
-        catalog.AddProduct("Наушники", 4500m, "Аудио");
+        catalog.AddProduct("РљР»Р°РІРёР°С‚СѓСЂР°", 2500m, "РџРµСЂРёС„РµСЂРёСЏ");
+        catalog.AddProduct("РњС‹С€СЊ", 1200m, "РџРµСЂРёС„РµСЂРёСЏ");
+        catalog.AddProduct("РњРѕРЅРёС‚РѕСЂ", 18000m, "Р”РёСЃРїР»РµРё");
+        catalog.AddProduct("РќР°СѓС€РЅРёРєРё", 4500m, "РђСѓРґРёРѕ");
 
         catalog.PrintAll();
         catalog.PrintSortedByNaturalOrder();
@@ -53,5 +53,17 @@ class Program
         Console.WriteLine(reports.AllInStock(products));
         Console.WriteLine(reports.Cheapest(products));
 
+        var summary = reports.SummarizeByCategory(products);
+        foreach (var row in summary)
+            Console.WriteLine($"{row.Category}: {row.Count} С€С‚., СЃСЂРµРґРЅСЏСЏ {row.AveragePrice:0.00} в‚Ѕ");
+
+        Console.WriteLine();
+        var top = reports.MostExpensiveCategory(products);
+        Console.WriteLine(top is null
+            ? "РљР°С‚Р°Р»РѕРі РїСѓСЃС‚ вЂ” РЅРµС‚ РєР°С‚РµРіРѕСЂРёР№."
+            : $"РЎР°РјР°СЏ РґРѕСЂРѕРіР°СЏ РєР°С‚РµРіРѕСЂРёСЏ: {top.Category} (СЃСЂРµРґРЅСЏСЏ {top.AveragePrice:0.00} в‚Ѕ)");
+
+        var big = reports.CategoriesWithAtLeast(products, 2);
+        Console.WriteLine($"РљР°С‚РµРіРѕСЂРёРё СЃ в‰Ґ2 С‚РѕРІР°СЂР°РјРё: {string.Join(", ", big)}");
     }
 }

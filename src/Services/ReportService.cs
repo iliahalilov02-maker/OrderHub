@@ -4,6 +4,13 @@ using OrderHub.Domain;
 
 namespace OrderHub.Services;
 
+public class CategorySummary
+{
+    public string Category { get; set; } = "";
+    public int Count { get; set; }
+    public decimal AveragePrice { get; set; }
+}
+
 public class ReportServices;
 {
     public list<string> ExpensiveProducts(IEnumerable<Product> products, decimal threshold)
@@ -34,4 +41,41 @@ public class ReportServices;
     {
         return products.OrderBy(p => p.Price).FirstOrDefault();
     }
+
+public List<CategorySummary> SummarizeByCategory(IEnumerable<Product> products)
+{
+    return products
+        .GroupBy(p => p.Category)
+        .Select(g => new CategorySummary
+        {
+            Category = g.Key,
+            Count = g.Count(),
+            AveragePrice = g.Average(p => p.Price)
+        })
+        .OrderByDescending(s => s.Count)
+        .ToList();
+}
+public CategorySummary? MostExpensiveCategory(IEnumerable<Product> products)
+{
+    return products
+        .GroupBy(p => p.Category)
+        .Select(g => new CategorySummary
+        {
+            Category = g.Key,
+            Count = g.Count(),
+            AveragePrice = g.Average(p => p.Price)
+        })
+        .OrderByDescending(s => s.AveragePrice)
+        .FirstOrDefault();
+}
+
+public List<string> CategoriesWithAtLeast(IEnumerable<Product> products, int minCount)
+{
+    return products
+        .GroupBy(p => p.Category)
+        .Where(g => g.Count() >= minCount)
+        .Select(g => g.Key)
+        .ToList();
+}
+}
 }
