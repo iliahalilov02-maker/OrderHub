@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\docs",
+    "\\src",
+    "\\src\\Collections",
+    "\\src\\Data",
+    "\\src\\Domain",
+    "\\src\\Services",
+    "\\tests"
+  ],
+  "SelectedNode": "\\src\\Services\\ReportService.cs",
+  "PreviewInSolutionExplorer": false
+}
