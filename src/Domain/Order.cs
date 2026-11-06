@@ -1,6 +1,7 @@
 ﻿namespace OrderHub.Domain;
 public class Order
-{ 
+{
+    public int CustomerId { get; set; }
     public int Id { get; set; }
     public string CustomerName { get; set; }
     public string ProductName { get; set; }
@@ -14,6 +15,7 @@ public class Order
         ProductName = productName;
         Price = price;
         CreatedAt = DateTime.Now;
+
     }
     public override string ToString()
     {
