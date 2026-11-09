@@ -42,9 +42,7 @@ OrderHub/
 │   │   └── OrderStream.cs            # Итераторы
 │   └── Program.cs                    # Точка входа
 └── tests/                            # Тесты
-
-    Замечание по текущему состоянию: в src/Domain/Customer.cs по ошибке лежит два класса — Customer и OrderService. Их нужно разделить: Customer → Domain/Customer.cs, OrderService → Services/OrderService.cs. Сейчас OrderService недописан (нет CreateOrder, ProcessNext, PrintAllOrders и т.д.), а Program.cs их вызывает — проект не компилируется.
-
+```
 3. Назначение каждого слоя
 Domain/ — доменные сущности
 
@@ -123,7 +121,7 @@ tests/ — заготовка
 
 Пока пусто. Планируется: юнит-тесты на WarehouseService.Sell (граничные случаи), CircularBuffer (перезапись, обход), ReportService (пустые коллекции, границы threshold).
 4. Поток данных между слоями
-text
+```text
 
 Program.cs
    │
@@ -149,7 +147,7 @@ Program.cs ──► Collections (независимо)
 Services ──► Domain (не наоборот!)
 Domain ──► ничего (кроме System)
 Collections ──► ничего (кроме System.Collections)
-
+```
 Правило: Domain не знает про Services. Services не знают про Program. Collections — самостоятельны. Это слоистая архитектура с однонаправленными зависимостями.
 5. Что демонстрирует каждый сервис — по этапам
 WarehouseService (этапы 1–2)
