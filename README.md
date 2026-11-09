@@ -15,45 +15,33 @@ OrderHub — учебный консольный проект на C# (.NET), д
 Идея: не девять разрозненных задач, а один связный проект, где каждый этап опирается на предыдущий. Склад → заказы → каталог → отчёты → поток заказов → кольцевой буфер.
 
 Тип приложения: консольное (OutputType: Exe), без БД, без сети. Все данные — в памяти, создаются в SeedData и Program.cs.
-2. Структура решения
-text
 
+## Структура решения
+
+```text
 OrderHub/
-├── .vs/                              # служебные файлы Visual Studio (не коммитить)
-│   ├── OrderHub/v17/
-│   │   ├── DocumentLayout.json       # какие файлы открыты, позиции курсоров
-│   │   └── DocumentLayout.backup.json
-│   ├── ProjectSettings.json
-│   └── VSWorkspaceState.json         # развёрнутые узлы Solution Explorer
-│
+├── .gitignore
+├── OrderHub.sln
+├── README.md
 ├── docs/
-│   └── EADME.md                      # конспект: 11 вопросов-ответов по темам этапов
-│
+│   └── EADME.md                      # Конспект теории
 ├── src/
 │   ├── Collections/
-│   │   └── CircularBuffer.cs         # этап 9: кольцевой буфер + итераторы
-│   │
+│   │   └── CircularBuffer.cs         # Этап 9: кольцевой буфер
 │   ├── Data/
-│   │   └── SeedData.cs               # демо-данные: товары, клиенты, заказы
-│   │
-│   ├── Domain/                       # доменные сущности (модели)
-│   │   ├── Product.cs                # товар + NameComparer + PriceDescComparer
-│   │   ├── Customer.cs               # клиент
-│   │   └── Order.cs                  # заказ
-│   │
-│   ├── Services/                     # бизнес-логика (сервисы)
-│   │   ├── WarehouseService.cs       # склад: Dictionary<string,int>
-│   │   ├── OrderService.cs           # заказы: List + Queue + Stack
-│   │   ├── CatalogService.cs         # каталог: три сортировки
-│   │   ├── ReportService.cs          # LINQ-отчёты (этапы 5–7)
-│   │   └── OrderStream.cs            # итераторы (этап 8)
-│   │
-│   └── Program.cs                    # точка входа, демонстрация всех этапов
-│
-├── tests/                            # (пусто/заготовка под юнит-тесты)
-│
-├── OrderHub.csproj                   # файл проекта
-└── OrderHub.sln                      # файл решения
+│   │   └── SeedData.cs               # Демо-данные
+│   ├── Domain/
+│   │   ├── Product.cs                # Товар + компараторы
+│   │   ├── Customer.cs               # Клиент
+│   │   └── Order.cs                  # Заказ
+│   ├── Services/
+│   │   ├── WarehouseService.cs       # Склад
+│   │   ├── OrderService.cs           # Заказы (Queue/Stack)
+│   │   ├── CatalogService.cs         # Каталог (Сортировки)
+│   │   ├── ReportService.cs          # LINQ-отчёты
+│   │   └── OrderStream.cs            # Итераторы
+│   └── Program.cs                    # Точка входа
+└── tests/                            # Тесты
 
     Замечание по текущему состоянию: в src/Domain/Customer.cs по ошибке лежит два класса — Customer и OrderService. Их нужно разделить: Customer → Domain/Customer.cs, OrderService → Services/OrderService.cs. Сейчас OrderService недописан (нет CreateOrder, ProcessNext, PrintAllOrders и т.д.), а Program.cs их вызывает — проект не компилируется.
 
